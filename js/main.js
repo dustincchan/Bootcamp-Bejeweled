@@ -95,8 +95,24 @@ Main.prototype = {
 		}
 	},
 
-	gameOver: function(){
-		this.game.state.start('GameOver');
-	}
-
-};
+	swapTiles: function(){
+	 
+	    var me = this;
+	 
+	    if(me.activeTile1 && me.activeTile2){
+	 
+	        var tile1Pos = {x:(me.activeTile1.x - me.tileWidth / 2) / me.tileWidth, y:(me.activeTile1.y - me.tileHeight / 2) / me.tileHeight};
+	        var tile2Pos = {x:(me.activeTile2.x - me.tileWidth / 2) / me.tileWidth, y:(me.activeTile2.y - me.tileHeight / 2) / me.tileHeight};
+	 
+	        me.tileGrid[tile1Pos.x][tile1Pos.y] = me.activeTile2;
+	        me.tileGrid[tile2Pos.x][tile2Pos.y] = me.activeTile1;
+	 
+	        me.game.add.tween(me.activeTile1).to({x:tile2Pos.x * me.tileWidth + (me.tileWidth/2), y:tile2Pos.y * me.tileHeight + (me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
+	        me.game.add.tween(me.activeTile2).to({x:tile1Pos.x * me.tileWidth + (me.tileWidth/2), y:tile1Pos.y * me.tileHeight + (me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
+	 
+	        me.activeTile1 = me.tileGrid[tile1Pos.x][tile1Pos.y];
+	        me.activeTile2 = me.tileGrid[tile2Pos.x][tile2Pos.y];
+	 
+	    }
+	 
+	},
