@@ -27,7 +27,7 @@ Main.prototype = {
 
     var seed = Date.now();
     me.random = new Phaser.RandomDataGenerator([seed]);
-
+    me.initTiles();
   },
 
   initTiles: function () {
@@ -70,7 +70,29 @@ Main.prototype = {
 	},
 
 	update: function() {
+		var me = this;
 
+		if (me.activeTile1 && !me.activeTile2) {
+			var hoverX = me.game.input.x;
+			var hoverY = me.game.input.y;
+
+			var hoverPosX = Math.floor(hoverX/me.tileWidth);
+			var hoverPosY = Math.floor(hoverY/me.tileHeight);
+
+			var difX = (hoverPosX - me.startPosX);
+			var difY = (hoverPosY - me.startPosY);
+
+			if(!(hoverPosY > me.tileGrid[0].length - 1 || hoverPosY < 0) && !(hoverPosX > me.tileGrid.length - 1 || hoverPosX < 0)) {
+				if((Math.abs(difY) == 1 && difX == 0) || (Math.abs(difX) == 1 && difY == 0)) {
+					me.canMove = false;
+					me.activeTile2 = me.tileGrid[hoverPosX][hoverPosY];
+					me.swapTiles();
+					me.game.time.events.add(500, function () {
+						me.checkMath();
+					});
+				}
+			}
+		}
 	},
 
 	gameOver: function(){
