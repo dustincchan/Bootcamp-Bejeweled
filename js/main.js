@@ -214,4 +214,37 @@ Main.prototype = {
 		return matches;
 	},
 
+	removeTileGroup: function () {
+		var me = this;
+		for (var i = 0; i < matches.length; i++) {
+			var tempArr = matches[i];
+
+			for (var j = 0; j < tempArr.length; j++) {
+				var tile = tempArr[j];
+				var tilePos = me.getTilePos(me.tileGrid, tile);
+
+				me.tiles.remove(tile);
+
+				if (tilePos.x != -1 && tilePos.y != -1) {
+					me.tileGrid[tilePos.x][tilePos.y] = null;
+				}
+			}
+		}
+	},
+
+	getTilePos: function () {
+		var pos = {x: -1, y: -1};
+
+		for (var i = 0; i < tileGrid.length; i++) {
+			for (var j = 0; j < tileGrid.length; j++) {
+				if (tile == tileGrid[i][j]) {
+					pos.x = j;
+					pos.y = i;
+					break;
+				}
+			}
+		}
+		return pos;
+	}
+};
 
