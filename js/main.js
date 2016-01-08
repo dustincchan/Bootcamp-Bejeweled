@@ -94,7 +94,7 @@ Main.prototype = {
 					me.activeTile2 = me.tileGrid[hoverPosX][hoverPosY];
 					me.swapTiles();
 					me.game.time.events.add(500, function () {
-						me.checkMath();
+						me.checkMatch();
 					});
 				}
 			}
@@ -216,7 +216,6 @@ Main.prototype = {
 			}
 			if (groups.length > 0) { matches.push(groups) };
 		}
-
 		return matches;
 	},
 
@@ -239,7 +238,7 @@ Main.prototype = {
 		}
 	},
 
-	getTilePos: function () {
+	getTilePos: function (tileGrid, tile) {
 		var pos = {x: -1, y: -1};
 
 		for (var i = 0; i < tileGrid.length; i++) {
@@ -261,7 +260,7 @@ Main.prototype = {
 
 				//Fills a space if the one above it is not empty
 				if(me.tileGrid[i][j] == null && me.tileGrid[i][j-1] != null) {
-					var tempTile = me.TileGrid[i][j-1];
+					var tempTile = me.tileGrid[i][j-1];
 					me.tileGrid[i][j] = tempTile;
 					me.tileGrid[i][j-1] = null;
 
