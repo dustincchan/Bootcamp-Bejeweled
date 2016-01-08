@@ -12,8 +12,8 @@ Main.prototype = {
 		me.activeTile1 = null;
 		me.activeTile2 = null;
 		me.canMove = false;
-		me.tileWidth = me.game.cache.getImage('blue').width;
-		me.tileHeight = me.game.cache.getImage('blue').height;
+		me.tileWidth = me.game.cache.getImage('blue').width/2;
+		me.tileHeight = me.game.cache.getImage('blue').height/2;
 		me.tiles = me.game.add.group();
 
 		me.tileGrid = [
@@ -28,6 +28,7 @@ Main.prototype = {
     var seed = Date.now();
     me.random = new Phaser.RandomDataGenerator([seed]);
     me.initTiles();
+    me.createScore();
   },
 
   initTiles: function () {
@@ -38,6 +39,10 @@ Main.prototype = {
   			me.tileGrid[i][j] = tile;
   		}
   	}
+
+  	me.game.time.events.add(600, function () {
+  		me.checkMatch();
+  	});
   },
 
 	addTile: function(x, y){
@@ -48,6 +53,7 @@ Main.prototype = {
 
 	 		//Drops at the correct x position but initializes at the top of the screen
 	    var tile = me.tiles.create((x * me.tileWidth) + me.tileWidth / 2, 0, tileToAdd);
+	    tile.scale.setTo(0.5, 0.5);
 	 		
 	    me.game.add.tween(tile).to({y:y*me.tileHeight+(me.tileHeight/2)}, 500, Phaser.Easing.Linear.In, true)
 	 		
@@ -98,7 +104,6 @@ Main.prototype = {
 	swapTiles: function(){
 	 
 	    var me = this;
-	 
 	    if(me.activeTile1 && me.activeTile2){
 	 
 	        var tile1Pos = {x:(me.activeTile1.x - me.tileWidth / 2) / me.tileWidth, y:(me.activeTile1.y - me.tileHeight / 2) / me.tileHeight};
@@ -106,7 +111,7 @@ Main.prototype = {
 	 
 	        me.tileGrid[tile1Pos.x][tile1Pos.y] = me.activeTile2;
 	        me.tileGrid[tile2Pos.x][tile2Pos.y] = me.activeTile1;
-	 
+	 				
 	        me.game.add.tween(me.activeTile1).to({x:tile2Pos.x * me.tileWidth + (me.tileWidth/2), y:tile2Pos.y * me.tileHeight + (me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
 	        me.game.add.tween(me.activeTile2).to({x:tile1Pos.x * me.tileWidth + (me.tileWidth/2), y:tile1Pos.y * me.tileHeight + (me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
 	 
@@ -215,7 +220,7 @@ Main.prototype = {
 		return matches;
 	},
 
-	removeTileGroup: function () {
+	removeTileGroup: function (matches) {
 		var me = this;
 		for (var i = 0; i < matches.length; i++) {
 			var tempArr = matches[i];
@@ -225,6 +230,7 @@ Main.prototype = {
 				var tilePos = me.getTilePos(me.tileGrid, tile);
 
 				me.tiles.remove(tile);
+				me.incrementScore();
 
 				if (tilePos.x != -1 && tilePos.y != -1) {
 					me.tileGrid[tilePos.x][tilePos.y] = null;
@@ -279,6 +285,20 @@ Main.prototype = {
 		}
 	},
 
-	
+	createScore: function(){
+    var me = this;
+    var scoreFont = "100px Arial";
+ 
+    me.scoreLabel = me.game.add.text((Math.floor(me.tileGrid[0].length / 2) * me.tileWidth), me.tileGrid.length * me.tileHeight, "0", {font: scoreFont, fill: "#fff"}); 
+    me.scoreLabel.anchor.setTo(0.5, 0);
+    me.scoreLabel.align = 'center';
+	},
+	 
+	incrementScore: function(){
+	    var me = this;
+	    me.score += 10;   
+	    me.scoreLabel.text = me.score;      
+	},
+
 };
 
