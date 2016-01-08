@@ -31,6 +31,32 @@ Main.prototype = {
     me.createScore();
   },
 
+	update: function() {
+		var me = this;
+
+		if (me.activeTile1 && !me.activeTile2) {
+			var hoverX = me.game.input.x;
+			var hoverY = me.game.input.y;
+
+			var hoverPosX = Math.floor(hoverX/me.tileWidth);
+			var hoverPosY = Math.floor(hoverY/me.tileHeight);
+
+			var difX = (hoverPosX - me.startPosX);
+			var difY = (hoverPosY - me.startPosY);
+
+			if(!(hoverPosY > me.tileGrid[0].length - 1 || hoverPosY < 0) && !(hoverPosX > me.tileGrid.length - 1 || hoverPosX < 0)) {
+				if((Math.abs(difY) === 1 && difX === 0) || (Math.abs(difX) === 1 && difY === 0)) {
+					me.canMove = false;
+					me.activeTile2 = me.tileGrid[hoverPosX][hoverPosY];
+					me.swapTiles();
+					me.game.time.events.add(500, function () {
+						me.checkMatch();
+					});
+				}
+			}
+		}
+	},
+
   initTiles: function () {
   	var me = this;
   	for (var i = 0; i < me.tileGrid.length; i++) {
@@ -75,30 +101,11 @@ Main.prototype = {
 		}
 	},
 
-	update: function() {
+	//Resets active tiles
+	tileUp: function () {
 		var me = this;
-
-		if (me.activeTile1 && !me.activeTile2) {
-			var hoverX = me.game.input.x;
-			var hoverY = me.game.input.y;
-
-			var hoverPosX = Math.floor(hoverX/me.tileWidth);
-			var hoverPosY = Math.floor(hoverY/me.tileHeight);
-
-			var difX = (hoverPosX - me.startPosX);
-			var difY = (hoverPosY - me.startPosY);
-
-			if(!(hoverPosY > me.tileGrid[0].length - 1 || hoverPosY < 0) && !(hoverPosX > me.tileGrid.length - 1 || hoverPosX < 0)) {
-				if((Math.abs(difY) == 1 && difX == 0) || (Math.abs(difX) == 1 && difY == 0)) {
-					me.canMove = false;
-					me.activeTile2 = me.tileGrid[hoverPosX][hoverPosY];
-					me.swapTiles();
-					me.game.time.events.add(500, function () {
-						me.checkMatch();
-					});
-				}
-			}
-		}
+		me.activeTile1 = null;
+		me.activeTile2 = null;
 	},
 
 	swapTiles: function(){
@@ -146,18 +153,12 @@ Main.prototype = {
 		}
 	},
 
-	//Resets active tiles
-	tileUp: function () {
-		var me = this;
-		me.activeTile1 = null;
-		me.activeTile2 = null;
-	},
 
 	getMatches: function (tileGrid) {
 		var matches = [];
 		var groups = [];
 
-		for (var i = 0; i < tileGrid; i++) {
+		for (var i = 0; i < tileGrid.length; i++) {
 			var tempArr = tileGrid[i];
 			groups = [];
 			for (var j = 0; j < tempArr.length; j++) {
@@ -165,20 +166,20 @@ Main.prototype = {
 					if (tileGrid[i][j] && tileGrid[i][j + 1] && tileGrid[i][j + 2]) {
 
 						//Finds a horizontal match
-          	if (tileGrid[i][j].tileType == tileGrid[i][j+1].tileType && tileGrid[i][j+1].tileType == tileGrid[i][j+2].tileType) {
+          	if (tileGrid[i][j].tileType === tileGrid[i][j+1].tileType && tileGrid[i][j+1].tileType === tileGrid[i][j+2].tileType) {
           		if (groups.length > 0) {
-          			if (groups.indexOf(tileGrid[i][j]) == -1) {
+          			if (groups.indexOf(tileGrid[i][j]) === -1) {
           				matches.push(groups);
           				groups = [];
           			}
           		}
-          		if (groups.indexOf(tileGrid[i][j]) == -1) {
-          			groups.push(tilegrid[i][j]);
+          		if (groups.indexOf(tileGrid[i][j]) === -1) {
+          			groups.push(tileGrid[i][j]);
           		}
-          		if (groups.indexOf(tileGrid[i][j+1]) == -1) {
-          			groups.push(tilegrid[i][j+1]);
+          		if (groups.indexOf(tileGrid[i][j+1]) === -1) {
+          			groups.push(tileGrid[i][j+1]);
           		}
-          		if (groups.indexOf(tileGrid[i][j+2]) == -1) {
+          		if (groups.indexOf(tileGrid[i][j+2]) === -1) {
           			groups.push(tileGrid[i][j+2]);
           		}
           	}
@@ -188,33 +189,33 @@ Main.prototype = {
 		}
 
 		//Now for vertical matches
-		for (j = 0; j < tileGrid.length; j++) {
-			var tempArr = tileGrid[j];
+		for (var l = 0; l < tileGrid.length; l++) {
+			var tempArr = tileGrid[l];
 			groups = [];
 			//Iterate through each gem in a column
-			for (i = 0; i < tempArr.length; i++) {
-				if (i < tempArr.length - 2)
-					if (tileGrid[i][j] && tileGrid[i+1][j] && tileGrid[i+2][j]) {
-						if (tileGrid[i][j].tileType == tileGrid[i+1][j].tileType && tileGrid[i+1][j].tileType == tileGrid[i+2][j].tileType) {
+			for (var k = 0; k < tempArr.length; k++) {
+				if (k < tempArr.length - 2) 
+					if (tileGrid[k][l] && tileGrid[k+1][l] && tileGrid[k+2][l]) {
+						if (tileGrid[k][l].tileType === tileGrid[k+1][l].tileType && tileGrid[k+1][l].tileType === tileGrid[k+2][l].tileType) {
 							if (groups.length > 0) {
-								if (groups.indexOf(tileGrid[i][j]) == -1) {
+								if (groups.indexOf(tileGrid[k][l]) === -1) {
 									matches.push(groups);
 									groups = [];
 								}
 							}
-							if (groups.indexOf(tileGrid[i][j]) == -1) {
-								groups.push(tileGrid[i][j]);
+							if (groups.indexOf(tileGrid[k][l]) === -1) {
+								groups.push(tileGrid[k][l]);
 							}
-							if (groups.indexOf(tileGrid[i+1][j]) == -1) {
-								groups.push(tileGrid[i+1][j]);
+							if (groups.indexOf(tileGrid[k+1][l]) === -1) {
+								groups.push(tileGrid[k+1][l]);
 							}
-							if (groups.indexOf(tileGrid[i+2][j]) == -1) {
-								groups.push(tileGrid[i+2][j]);
+							if (groups.indexOf(tileGrid[k+2][l]) === -1) {
+								groups.push(tileGrid[k+2][l]);
 							}
 						}
 					}
 			}
-			if (groups.length > 0) { matches.push(groups) };
+			if (groups.length > 0) matches.push(groups);
 		}
 		return matches;
 	},
@@ -243,7 +244,7 @@ Main.prototype = {
 
 		for (var i = 0; i < tileGrid.length; i++) {
 			for (var j = 0; j < tileGrid.length; j++) {
-				if (tile == tileGrid[i][j]) {
+				if (tile === tileGrid[i][j]) {
 					pos.x = j;
 					pos.y = i;
 					break;
@@ -253,13 +254,45 @@ Main.prototype = {
 		return pos;
 	},
 
+	debugMatches: function (matches) {
+		var currentMatch;
+		var translatedGrid = [];
+		var temp = [];
+		for (var i = 0; i < matches.length; i++) {
+			currentMatch = matches[i];
+			for (var j = 0; j < currentMatch.length; j++) {
+				temp.push(this.getTilePos(matches[i][j]));
+			}
+			translatedGrid.push(temp);
+			temp = [];
+		}
+		return translatedGrid;
+	},
+
+	debugTileGrid: function () {
+		var tempGrid = [];
+		this.tileGrid.forEach(function (tile) {
+			var tempRow = [];
+			tile.forEach(function (gem) {
+				if (gem === null) {
+					tempRow.push(" ")
+				} else {
+					tempRow.push(gem.key);
+				}
+			})
+			tempGrid.push(tempRow);
+			tempRow = [];
+		})
+		return tempGrid;
+	},
+
 	resetTile: function () {	
 		var me = this;
 		for (var i = 0; i < me.tileGrid.length; i++) {
 			for (var j = me.tileGrid[i].length - 1; j > 0; j--) {
 
 				//Fills a space if the one above it is not empty
-				if(me.tileGrid[i][j] == null && me.tileGrid[i][j-1] != null) {
+				if(me.tileGrid[i][j] === null && me.tileGrid[i][j-1] != null) {
 					var tempTile = me.tileGrid[i][j-1];
 					me.tileGrid[i][j] = tempTile;
 					me.tileGrid[i][j-1] = null;
@@ -276,7 +309,7 @@ Main.prototype = {
 		var me = this;
 		for (var i = 0; i < me.tileGrid.length; i++) {
 			for (var j = 0; j < me.tileGrid.length; j++) {
-				if (me.tileGrid[i][j] == null) {
+				if (me.tileGrid[i][j] === null) {
 					var tile = me.addTile(i, j);
 					me.tileGrid[i][j] = tile;
 				}
