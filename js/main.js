@@ -245,8 +245,8 @@ Main.prototype = {
 		for (var i = 0; i < tileGrid.length; i++) {
 			for (var j = 0; j < tileGrid[i].length; j++) {
 				if (tile === tileGrid[i][j]) {
-					pos.x = j;
-					pos.y = i;
+					pos.x = i;
+					pos.y = j;
 					break;
 				}
 			}
