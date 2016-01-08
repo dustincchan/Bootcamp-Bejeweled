@@ -31,6 +31,7 @@ Main.prototype = {
   },
 
   initTiles: function () {
+  	var me = this;
   	for (var i = 0; i < me.tileGrid.length; i++) {
   		for (var j = 0; j < me.tileGrid.length; j++) {
   			var tile = me.addTile(i, j);
@@ -245,6 +246,39 @@ Main.prototype = {
 			}
 		}
 		return pos;
-	}
+	},
+
+	resetTile: function () {	
+		var me = this;
+		for (var i = 0; i < me.tileGrid.length; i++) {
+			for (var j = me.tileGrid[i].length - 1; j > 0; j--) {
+
+				//Fills a space if the one above it is not empty
+				if(me.tileGrid[i][j] == null && me.tileGrid[i][j-1] != null) {
+					var tempTile = me.TileGrid[i][j-1];
+					me.tileGrid[i][j] = tempTile;
+					me.tileGrid[i][j-1] = null;
+
+					//Animation of tile dropping down
+          me.game.add.tween(tempTile).to({y:(me.tileHeight*j)+(me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
+          j = me.tileGrid[i].length;
+				}
+			}
+		}
+	},
+	//Iterates through grid to find blank spaces and then adds new tiles within them
+	fillTile: function () {
+		var me = this;
+		for (var i = 0; i < me.tileGrid.length; i++) {
+			for (var j = 0; j < me.tileGrid.length; j++) {
+				if (me.tileGrid[i][j] == null) {
+					var tile = me.addTile(i, j);
+					me.tileGrid[i][j] = tile;
+				}
+			}
+		}
+	},
+
+	
 };
 
