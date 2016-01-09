@@ -229,6 +229,10 @@ Main.prototype = {
 				var tile = tempArr[j];
 				var tilePos = me.getTilePos(me.tileGrid, tile);
 
+				me.explosion = me.game.add.sprite(tilePos.x * me.tileWidth, tilePos.y * me.tileWidth, 'explosions');
+				me.explosion.animations.add('explode', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 15, false);
+				me.explosion.animations.play('explode', 25, false, true);
+
 				me.tiles.remove(tile);
 				me.incrementScore();
 
@@ -240,6 +244,7 @@ Main.prototype = {
 	},
 
 	getTilePos: function (tileGrid, tile) {
+		var me = this;
 		var pos = {x: -1, y: -1};
 
 		for (var i = 0; i < tileGrid.length; i++) {
