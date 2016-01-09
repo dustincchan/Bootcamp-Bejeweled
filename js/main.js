@@ -6,7 +6,7 @@ Main.prototype = {
 
 	create: function() {
 		var me = this;
-		me.game.stage.backgroundColor = "34495f";
+		me.game.stage.backgroundColor = "#FFFFFF";
 		me.tileTypes = ['blue', 'green', 'red', 'yellow'];
 		me.score = 0;
 		me.activeTile1 = null;
@@ -229,9 +229,13 @@ Main.prototype = {
 				var tile = tempArr[j];
 				var tilePos = me.getTilePos(me.tileGrid, tile);
 
-				me.explosion = me.game.add.sprite(tilePos.x * me.tileWidth, tilePos.y * me.tileWidth, 'explosions');
-				me.explosion.animations.add('explode', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 15, false);
-				me.explosion.animations.play('explode', 25, false, true);
+				// me.explosion = me.game.add.sprite(tilePos.x * me.tileWidth, tilePos.y * me.tileWidth, 'explosions');
+				// me.explosion.animations.add('explode', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 15, false);
+				// me.explosion.animations.play('explode', 25, false, true);
+
+				me.coinflip = me.game.add.sprite(tilePos.x * me.tileWidth - 20, tilePos.y * me.tileWidth - 20, 'coinflip');
+				me.coinflip.animations.add('coinflip', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 24, false);
+				me.coinflip.animations.play('coinflip', 65, false, true);
 
 				me.tiles.remove(tile);
 				me.incrementScore();
@@ -303,7 +307,7 @@ Main.prototype = {
 					me.tileGrid[i][j-1] = null;
 
 					//Animation of tile dropping down
-          me.game.add.tween(tempTile).to({y:(me.tileHeight*j)+(me.tileHeight/2)}, 200, Phaser.Easing.Linear.In, true);
+          me.game.add.tween(tempTile).to({y:(me.tileHeight*j)+(me.tileHeight/2)}, 700, Phaser.Easing.Linear.In, true);
           j = me.tileGrid[i].length;
 				}
 			}
@@ -324,17 +328,17 @@ Main.prototype = {
 
 	createScore: function(){
     var me = this;
-    var scoreFont = "100px Arial";
- 
-    me.scoreLabel = me.game.add.text((Math.floor(me.tileGrid[0].length / 2) * me.tileWidth), me.tileGrid.length * me.tileHeight, "0", {font: scoreFont, fill: "#fff"}); 
+    var scoreFont = "70px Helvetica";
+ 		
+    me.scoreLabel = me.game.add.text((Math.floor(me.tileGrid[0].length / 2) * me.tileWidth), me.tileGrid.length * me.tileHeight, "Your debt: $0", {font: scoreFont, fill: "#333"}); 
     me.scoreLabel.anchor.setTo(0.5, 0);
     me.scoreLabel.align = 'center';
 	},
 	 
 	incrementScore: function(){
 	    var me = this;
-	    me.score += 10;   
-	    me.scoreLabel.text = me.score;      
+	    me.score += 100;   
+	    me.scoreLabel.text = "Your debt: $" + me.score;      
 	},
 
 };
