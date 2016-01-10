@@ -9,6 +9,7 @@ Preload.prototype = {
 	    this.game.load.image('yellow', 'assets/hack reactor.png');
 	    this.game.load.spritesheet('explosions', 'assets/atomic explosion.png', 96, 96);
 	    this.game.load.spritesheet('coinflip', 'assets/coinflip.png', 128, 128);
+	    this.game.load.audio('chaching', ['assets/chaching.mp3', 'assets/chaching.ogg']);
 	},
 
 	create: function(){

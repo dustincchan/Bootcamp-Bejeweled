@@ -8,6 +8,8 @@ Main.prototype = {
 		var me = this;
 		me.game.stage.backgroundColor = "#FFFFFF";
 		me.tileTypes = ['blue', 'green', 'red', 'yellow'];
+		me.chaching = me.game.add.audio('chaching');
+		me.chaching.allowMultiple = true;
 		me.score = 0;
 		me.activeTile1 = null;
 		me.activeTile2 = null;
@@ -222,6 +224,7 @@ Main.prototype = {
 
 	removeTileGroup: function (matches) {
 		var me = this;
+		me.chaching.play();
 		for (var i = 0; i < matches.length; i++) {
 			var tempArr = matches[i];
 
@@ -341,5 +344,9 @@ Main.prototype = {
 	    me.scoreLabel.text = "Your debt: $" + me.score;      
 	},
 
+	centerCountDownText: function () {
+		var me = this;
+	  me.countDownText.x = (me.game.width / 2) - (me.countDownText.width / 2);
+	},
 };
 
