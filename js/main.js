@@ -343,10 +343,5 @@ Main.prototype = {
 	    me.score += 100;   
 	    me.scoreLabel.text = "Your debt: $" + me.score;      
 	},
-
-	centerCountDownText: function () {
-		var me = this;
-	  me.countDownText.x = (me.game.width / 2) - (me.countDownText.width / 2);
-	},
 };
 
