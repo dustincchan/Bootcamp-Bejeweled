@@ -6,6 +6,9 @@ Main.prototype = {
 
 	create: function() {
 		var me = this;
+
+		me.bgm = me.game.add.audio('bgm');
+		me.bgm.play();
 		me.game.stage.backgroundColor = "#FFF";
 		me.tileTypes = ['blue', 'green', 'red', 'yellow'];
 		me.chaching = me.game.add.audio('chaching');

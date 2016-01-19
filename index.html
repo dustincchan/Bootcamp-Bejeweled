@@ -3,6 +3,9 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Bejeweled: Bootcamp Edition</title>
+	<div id="bg">
+  	<img src="assets/background.png" alt="">
+	</div>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
 	<script type="text/javascript" src="js/boot.js"></script>
 	<script type="text/javascript" src="js/preload.js"></script>
@@ -10,16 +13,19 @@
 	<script type="text/javascript" src="js/menu.js"> </script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/gameover.js"></script>
+	<link rel="stylesheet" href="application.css" />
+	<div id="phaser-container"></div>
     <style type="text/css">
         body {
             margin: 0;
         }
     </style>
+
     <script type="text/javascript">
 		(function() {
 
 				//Create a new game that fills the screen
-				game = new Phaser.Game(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio, Phaser.AUTO);
+				game = new Phaser.Game(600, 670, Phaser.AUTO, 'phaser-container');
 				
 				//Add all states
 				game.state.add("Boot", Boot);
@@ -33,6 +39,7 @@
 
 		})();
     </script>
+
 </head>
 <body>
 </body>
