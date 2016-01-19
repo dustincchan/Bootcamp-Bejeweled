@@ -331,7 +331,7 @@ Main.prototype = {
 
 	createScore: function(){
     var me = this;
-    var scoreFont = "70px Helvetica";
+    var scoreFont = "50px Helvetica";
  		
     me.scoreLabel = me.game.add.text((Math.floor(me.tileGrid[0].length / 2) * me.tileWidth), me.tileGrid.length * me.tileHeight, "Your debt: $0", {font: scoreFont, fill: "#333"}); 
     me.scoreLabel.anchor.setTo(0.5, 0);
