@@ -9,7 +9,6 @@ Preload.prototype = {
 	    this.game.load.image('yellow', 'assets/hack reactor.png');
 	    this.game.load.spritesheet('coinflip', 'assets/coinflip.png', 128, 128);
 	    this.game.load.audio('chaching', ['assets/chaching.mp3', 'assets/chaching.ogg']);
-	    this.game.load.audio('bgm', 'assets/money.mp3');
       this.game.load.image("gametitle", "assets/sprites/bootcamp.png");
       this.game.load.image("gridedition", "assets/sprites/gridedition.png");
       this.game.load.image("playbutton", "assets/sprites/playbutton.png");
