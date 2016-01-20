@@ -1,9 +1,10 @@
 div#phaser-container {
     width: 40%;
     min-width: 500px;
-    height: 50%;
+    height: 100%;
     position: relative;
     margin: auto;
+    margin-top: 50px;
 }
 
 #bg {
