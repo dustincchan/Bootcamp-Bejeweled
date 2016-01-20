@@ -11,10 +11,7 @@ GameTitle.prototype = {
 		var grid = game.add.sprite(game.width / 2, 130, "gridedition");
 		grid.scale.setTo(0.5, 0.5);
 		grid.anchor.set(0.5);
-		var playButton = game.add.button(game.width / 2, game.height / 2 + 50, "playbutton", function(){
-			this.startGame();
-			bgm.play();
-		}.bind(this));
+		var playButton = game.add.button(game.width / 2, game.height / 2 + 50, "playbutton", function(){this.startGame()}.bind(this));
 		playButton.anchor.set(0.5);
 
 		var style = { font: "20px Arial", fill: "#ffffff", align: "center" };
