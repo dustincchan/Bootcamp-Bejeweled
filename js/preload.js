@@ -12,6 +12,7 @@ Preload.prototype = {
       this.game.load.image("gametitle", "assets/sprites/bootcamp.png");
       this.game.load.image("gridedition", "assets/sprites/gridedition.png");
       this.game.load.image("playbutton", "assets/sprites/playbutton.png");
+      this.game.load.audio('bgm', 'assets/money.mp3');
 	},
 
 	create: function(){
