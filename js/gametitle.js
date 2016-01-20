@@ -3,7 +3,6 @@ var GameTitle = function(game){};
 GameTitle.prototype = {
 
 	create: function(){
-		bgm = this.game.add.audio('bgm');
 		this.game.stage.backgroundColor = "#333"
 		var title = game.add.sprite(game.width / 2, 60, "gametitle");
 		title.scale.setTo(0.8, 0.8);
